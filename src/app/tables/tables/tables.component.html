@@ -1,0 +1,80 @@
+<div class="col-12 mb-4 data-table-rows data-table-responsive">
+
+    <ngx-datatable #myTable class="expandable" [columnMode]="ColumnMode.force" [rowHeight]="50"  (activate)="onActivate($event)" [rows]="rows"
+      [footerHeight]="100" [limit]="rowsPerPage" [headerHeight]="20" (page)="onPage($event)">
+      <ngx-datatable-row-detail [rowHeight]="'auto'" (toggle)="onDetailToggle($event)" cellClass="datatable-row-detail">
+        <ng-template let-column="column" let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+          <div class="detail-content">
+            <div class="d-flex flex-row">
+              <div>
+                <div class="text-muted mr-3" *ngFor="let column of columns | keyvalue">
+                  {{column.value.name}}
+                </div>
+              </div>
+              <div>
+                <div  *ngFor="let column of columns | keyvalue">
+                  {{ row[column.value.prop] }}
+                </div>
+                
+              </div>
+            </div>
+                <div >
+                  <a class="c-pointer pr-3" *ngFor="let action of actions" (click)="triggerAction(action.actionName)"><i [ngClass]="action.actionIcon"></i></a>
+  
+                </div>
+          </div>
+        </ng-template>
+      </ngx-datatable-row-detail>
+  
+      <ngx-datatable-column [width]="5" [resizeable]="true" [sortable]="true" [draggable]="false"
+        [canAutoResize]="false" class="expand-row-button" headerClass="expand-row-button">
+        <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+          <a [class.datatable-icon-right]="!expanded" [class.datatable-icon-down]="expanded" title="Expand/Collapse Row"
+            (click)="toggleExpandRow(row)" class="d-block d-xl-none c-pointer">
+            <i class="glyph-icon simple-icon-arrow-down"></i>
+          </a>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column  [flexGrow]="1.2" [minWidth]="30" *ngFor="let column of columns | keyvalue"  [name]="column.value.prop">
+        <ng-template ngx-datatable-header-template>
+          <span>{{column.value.name}}</span>
+        </ng-template>
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <a class="c-pointer">{{ value }}</a>
+        </ng-template>
+        
+      </ngx-datatable-column>
+      <ngx-datatable-column  [flexGrow]="1.2" [minWidth]="40" *ngIf="actions" >
+        <ng-template ngx-datatable-header-template>
+          <span>Details</span>
+        </ng-template>
+        <ng-template let-value="value" ngx-datatable-cell-template>
+  
+          <a class="c-pointer pr-3" *ngFor="let action of actions" (click)="triggerAction(action.actionName)"><i [ngClass]="action.actionIcon"></i></a>
+  
+        </ng-template>
+        
+        
+      </ngx-datatable-column>
+  
+      <ngx-datatable-footer *ngIf="true" >
+        <ng-template ngx-datatable-footer-template let-rowCount="rowCount" let-pageSize="rowPerPage"
+          let-selectedCount="currentPage" let-curPage="currentPage" let-offset="offset" let-limit="rowsPerPage">
+          <div class="w-100 d-flex justify-content-center">
+            <pagination  [(ngModel)]="currentPage" [rotate]="true" (pageChanged)="pageChanged($event)" [currentPage]="currentPages" [totalItems]="totalRows" [itemsPerPage]="rowsPerPage" [maxSize]="5" (pageChanged)="table.onFooterPage($event)"
+            [customNextTemplate]="nextTemplate" [customPreviousTemplate]="prevTemplate">
+            </pagination>
+          </div>
+        </ng-template>
+      </ngx-datatable-footer>
+  
+    </ngx-datatable>
+  </div>
+  
+  <ng-template #nextTemplate let-disabled="disabled" let-currentPage="currentPage">
+  <i class='simple-icon-arrow-right'></i>
+  </ng-template>
+  <ng-template #prevTemplate let-disabled="disabled" let-currentPage="currentPage">
+  <i class='simple-icon-arrow-left'></i>
+  </ng-template>
+  

@@ -1,0 +1,35 @@
+<div class="separator mb-15">
+  <div class="row ">
+    <div class="col-4 ">
+      <h1> Dashboard Page</h1>
+    </div>
+    <div class="col-3">
+      <input type="text" class="mt-4" placeholder="filter by Id" (keyup)='filterById($event)'>
+</div> 
+   <div class="col-3 mt-4 buttonIn">
+    <input type="text" [(ngModel)]="title" placeholder="filter by title" id="enter">
+    <button id="clear"  (click)="filterByTitle()">Filter</button>
+
+    </div>
+    <!-- routerLink="add-member" -->
+  </div>
+</div>
+<div class="container">
+     <div class="table table-hover">
+      <div class="col-12 card pt-3">
+        <app-tables
+        [rows]="posts"
+        [columns]="columns"
+        [currentPage]="currentPage"
+        [totalRows]="totalRows"
+        [rowsPerPage]="rowsPerPage" 
+        (changedPage)="getCurrentPage($event)"
+        [actions]="actionsList" 
+
+        (outputAction)="one.myFunctionOne($event)">
+        </app-tables>
+        </div>
+      </div>
+    </div>
+
+    <app-info #one></app-info>

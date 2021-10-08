@@ -1,0 +1,12 @@
+<div class="form-group">
+    <form [formGroup]="emailForm">
+
+        <label class="form-control-label">USERNAME</label>
+        <input type="text" class="form-control" formControlName="email" [(ngModel)]="email" (keyup)="sendMessage()">
+        <div *ngIf="emailForm.get('email').touched && emailForm.get('email').hasError('required')" class="color">User
+            Name is required</div>
+        <div *ngIf="emailForm.get('email').touched && emailForm.get('email').hasError('pattern')" class="color">User
+            Name is invalid</div>
+
+    </form>
+</div>
